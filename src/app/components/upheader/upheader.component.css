@@ -1,0 +1,75 @@
+.page-header{
+  margin-top: 1%;
+  margin-bottom: 1%;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.upheader-box{
+  background-color: #a4c2f4;
+  height: 100px;
+  width: 100%;
+}
+.upheader-title{
+  height: 60px;
+  text-align: left;
+  color:#dffbff; 
+  margin: 0px 10px 0px 10px;
+  font-size: 30px;
+  font-weight: 100;
+}
+
+.upheader-subtitle{
+  text-align: center;
+  color:#989595;
+}
+
+.logged-in-status{
+  text-align: right;
+  vertical-align: bottom;
+  font-size: 15px;
+  font-weight: 200;
+  color:#84838e; 
+  }
+.uplogo-container {
+  height: inherit;
+  width: 90px;
+  background: url(/assets/LGG_Logo.jpg) no-repeat center center/70%;
+  margin: 0px 10px;
+  align-content: center;
+}
+.upheader-content{
+  height: inherit;
+  /*background-color: green;*/
+  /*position:relative;*/
+}
+
+.upheader-navbar{
+  text-align: right;
+  font-size: 20px;
+  font-weight: 400;
+  /*position: absolute;
+  bottom: 0; 
+  right: 0;*/
+  }
+
+ul > li {
+    display: inline-block;
+    margin-right: 40px;
+}
+
+.upheader-nav-button {
+  color: #365bba;
+}
+
+/* Change the link color on hover */
+.upheader-nav-button:hover {
+    color: #004dff;
+    cursor: pointer;
+}
+
+.clicked {
+  color: red;
+}
+.test-border{
+  /*border: .5px solid red;*/
+}

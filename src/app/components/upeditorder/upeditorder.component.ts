@@ -6,10 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./upeditorder.component.css']
 })
 export class UpeditorderComponent implements OnInit {
+  private orders: Array<String> = new Array();
 
-  constructor() { }
+  constructor() {   }
 
   ngOnInit() {
+    this.orders = ["Order1", "Order2", "Order3"];
+  }
+
+  gotoDetail(order){
+    console.log('...order:');
+    console.log(order);
   }
 
 }

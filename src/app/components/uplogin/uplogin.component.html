@@ -1,3 +1,31 @@
-<p>
-  uplogin works!
-</p>
+<!--<div class="fluid-container">-->
+    <div class="row row-centered ">
+        <!--<div class="col-md-2"></div>-->
+        <div class="col-md-10 col-centered login-panel ">
+                
+                <label for="txtPassword">User name:</label><br>
+                <input id="txtEmail" class= "input-sm login-input" type="email" placeholder="Email"><br><br>
+                
+                <label for="txtPassword">Password:</label><br>
+                <input id="txtPassword" class= "input-sm login-input" type="password" placeholder="Password"><br><br>
+
+                <button id="btnLogin" class="btn btn-action" *ngIf="isLoggedIn === false" >Log in</button>
+                <button id="btnSignUp" class="btn btn-secondary" (click)="loginTester()">Sign up (tester)</button>
+                <button id="btnLogout" class="btn btn-action" *ngIf="isLoggedIn === true" (click)="logout()">Log Out</button>
+
+                <br><br><br><br>
+
+                <a class="btn btn-block btn-social btn-facebook" (click)="loginWithFacebook()" >
+                    <span class="fa fa-facebook"></span> Sign in with Facebook </a>
+
+                <a class="btn btn-block btn-social btn-google" (click)="loginWithGoogle()" >
+                    <span class="fa fa-google"></span> Sign in with Google </a>
+
+                <br><br>
+        </div>
+        <div class="col-md-12">
+            <div *ngIf="_as.user$ | async">You are logged in.  Welcome {{ _as.userName$ | async}}</div>
+            <div *ngIf="!(_as.user$ | async)">Please log in</div>
+        </div>
+    </div>
+<!--</div>-->

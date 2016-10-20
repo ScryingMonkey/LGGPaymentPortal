@@ -1,3 +1,10 @@
-<h1>
-  {{title}}
-</h1>
+<div class="fluid-container">
+
+  <app-upheader [title]="title" [links]="links">></app-upheader>
+
+  <router-outlet></router-outlet>
+
+  <app-uptestingfooter></app-uptestingfooter>
+
+</div>
+
