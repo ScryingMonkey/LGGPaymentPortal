@@ -1,0 +1,11 @@
+/*.label {
+    text-align: right;
+    vertical-align: middle;
+    color: red;
+    font-size: 100%;
+    margin: auto;
+}*/
+
+.align-right {
+    text-align: right;
+}

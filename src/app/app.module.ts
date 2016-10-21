@@ -18,6 +18,7 @@ import { AuthService } from './services/auth.service';
 import { PayService } from './services/pay.service';
 import { TestService } from './services/test.service';
 import { OrderService } from './services/order.service';
+import { HubService } from './services/hub.service';
 
 // Must export the config
 export const firebaseConfig = {
@@ -46,14 +47,11 @@ export const firebaseConfig = {
     UpeditorderComponent,
     UptestingfooterComponent
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
+  imports: [ BrowserModule, FormsModule, HttpModule,
     AngularFireModule.initializeApp(firebaseConfig),
     RouterModule.forRoot(UpAppRoutes)
   ],
-  providers: [AuthService, PayService, OrderService, TestService],
+  providers: [AuthService, PayService, OrderService, TestService, HubService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

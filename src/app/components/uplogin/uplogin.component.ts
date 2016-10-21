@@ -13,10 +13,11 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./uplogin.component.css'],
   directives: []
 })
-export class UploginComponent implements OnInit {  private listTitle: string;
+export class UploginComponent implements OnInit {  
+  private listTitle: string;
   private liTitleKey: string;
   private auth: Subject<any>;
-  private userName;
+  private userName: string;
   public isLoggedIn: boolean;
   
   constructor(public _as: AuthService, public af: AngularFire, public router: Router) {

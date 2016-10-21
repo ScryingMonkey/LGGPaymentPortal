@@ -1,3 +1,13 @@
 <p>
   upaccount works!
 </p>
+
+<h3>Orders</h3>
+<div class="grid grid-pad">
+  <div *ngFor="let order of orders" (click)="gotoDetail(order)" class="col-1-4">
+    <div class="module order">
+      <h4>Name: {{ order.name }}</h4>
+      <h5>Quantity: {{ order.quantity }}, Cost: {{ order.cost }}, Status: {{ order.status }}</h5>
+    </div>
+  </div>
+</div>

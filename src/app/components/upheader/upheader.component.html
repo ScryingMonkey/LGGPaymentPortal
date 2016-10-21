@@ -7,8 +7,8 @@
   <div class= "col-md-10 upheader-content test-border">
   
     <div class="row upheader-title test-border">
-      <div class="col-md-6">{{ title }}</div>
-      <div class="col-md-6 logged-in-status" >
+      <div class="col-md-10">{{ title }}</div>
+      <div class="col-md-2 logged-in-status" >
         <div *ngIf="_as.user$ | async">
           Logged in as: {{ _as.userName$ | async}}  <div (click)="logout()">Logout</div>
         </div>

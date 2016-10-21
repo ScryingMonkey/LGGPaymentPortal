@@ -1,0 +1,53 @@
+<div *ngIf="showTitle">
+    <h1><center>{{ title }}</center></h1>
+</div>
+<div *ngIf="showSummary">
+    <h3><center>{{ summary }}</center></h3>
+</div>
+<div *ngIf="showAmount">
+    <div class="row form-group">
+        <div class="col-xs-12">
+            <center><h3>
+            Total Due: {{ totalInvoice | currency:'USD':true}}
+            </h3></center>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="showForm"> 
+    <hr>
+    <div class="form-group">
+        <form checkout-form="stripeCallback" >
+
+            <div class="row form-group">
+                <label for="ccNumber-input" class="col-xs-2 col-form-label ">Card Number</label>            
+                <div class="col-xs-10">
+                    <input [(ngModel)]="ccData.ccNumber" class="form-control"
+                        type="number" placeholder="XXXX-XXXX-XXXX-XXXX" name="ccNumber-input" >
+                </div>
+            </div>
+            
+            <div class="row form-group">
+                <label for="ccExpiry-input" class="col-xs-2 col-form-label ">Exp Date</label>
+                <div class="col-xs-3">
+                    <input [(ngModel)]="ccData.ccExpiry" class="form-control" 
+                        type="date" placeholder="yyyy-mm-dd" name="ccExpiry-input">
+                </div>
+                <label for="ccCvv-input" class="col-xs-2 col-form-label ">CVV</label>
+                <div class="col-xs-3">
+                    <input [(ngModel)]="ccData.ccCvv" class="form-control"
+                        type="number" placeholder="333" name="ccCvv-input"
+                        maxlength="3" >
+                </div>
+                <div class="col-xs-2">
+                    <button type="button" class="btn btn-success align-right"
+                        (click)='submitForm()'>Submit</button>
+                </div>
+            </div>
+                
+        </form>
+    </div>
+    
+    <div *ngIf="_test.testing | async"><hr>CC Data: {{ testingCCData }}<hr></div>
+
+</div>

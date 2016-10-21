@@ -1,3 +1,7 @@
-<p>
-  uptestingfooter works!
-</p>
+<br>
+<br>
+<hr>
+<div>
+  Testing Status: {{ _test.testing | async }}<br>
+  <button (click)="_test.updateTesting(true)">Start Testing</button><button (click)="_test.updateTesting(false)">Stop Testing</button>
+</div>

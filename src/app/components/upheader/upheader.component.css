@@ -5,14 +5,14 @@
   padding-bottom: 0;
 }
 .upheader-box{
-  background-color: #a4c2f4;
+  background-color: #6D4C41;
   height: 100px;
   width: 100%;
 }
 .upheader-title{
   height: 60px;
   text-align: left;
-  color:#dffbff; 
+  color:#EFEBE9; 
   margin: 0px 10px 0px 10px;
   font-size: 30px;
   font-weight: 100;
@@ -20,7 +20,7 @@
 
 .upheader-subtitle{
   text-align: center;
-  color:#989595;
+  color:#BCAAA4;
 }
 
 .logged-in-status{
@@ -28,8 +28,19 @@
   vertical-align: bottom;
   font-size: 15px;
   font-weight: 200;
-  color:#84838e; 
+  color:#BCAAA4; 
   }
+.logged-in-status a {
+  color: #BCAAA4;
+  font-size: 15px;
+}
+.logged-in-status a:hover {
+  color: #D7CCC8;
+  font-size: 15px;
+  text-decoration: none;
+  cursor: pointer;
+}
+ 
 .uplogo-container {
   height: inherit;
   width: 90px;
@@ -58,12 +69,12 @@ ul > li {
 }
 
 .upheader-nav-button {
-  color: #365bba;
+  color: #BCAAA4;
 }
 
 /* Change the link color on hover */
 .upheader-nav-button:hover {
-    color: #004dff;
+    color: #D7CCC8;
     cursor: pointer;
 }
 

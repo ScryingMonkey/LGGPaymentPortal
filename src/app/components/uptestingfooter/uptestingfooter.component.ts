@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { TestService } from '../../services/test.service';
+
 @Component({
   selector: 'app-uptestingfooter',
   templateUrl: './uptestingfooter.component.html',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UptestingfooterComponent implements OnInit {
 
-  constructor() { }
+  constructor( private _test:TestService ) {  }
 
   ngOnInit() {
   }
