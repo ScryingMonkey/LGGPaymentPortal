@@ -6,6 +6,8 @@ import { Subject }    from 'rxjs/Subject';
 import { Router }   from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
+import { TestService } from '../../services/test.service';
+import { HubService } from '../../services/hub.service';
 
 @Component({
   selector: 'app-uplogin',
@@ -20,11 +22,17 @@ export class UploginComponent implements OnInit {
   private userName: string;
   public isLoggedIn: boolean;
   
-  constructor(public _as: AuthService, public af: AngularFire, public router: Router) {
+  constructor(public _as: AuthService, public af: AngularFire, public router: Router, private _test:TestService) {
     console.log('[ UploginComponent.constructor');
     _as.isLoggedIn$.subscribe(isLoggeIn => this.isLoggedIn = isLoggeIn);
   }
-  ngOnInit() {  }
+
+  ngOnInit() { 
+    if(this.isLoggedIn) {
+      console.log('...already logged in.  Redirecting...');
+      this.router.navigate( ['/loggedin'] );
+    }
+  }
   loginWithEmail() {  }
   loginWithGoogle() { this._as.loginWithGoogle(); }
   loginWithFacebook() { this._as.loginWithFacebook(); }

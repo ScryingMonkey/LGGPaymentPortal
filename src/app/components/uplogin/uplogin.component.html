@@ -23,9 +23,18 @@
 
                 <br><br>
         </div>
-        <div class="col-md-12">
-            <div *ngIf="_as.user$ | async">You are logged in.  Welcome {{ _as.userName$ | async}}</div>
-            <div *ngIf="!(_as.user$ | async)">Please log in</div>
+
+
+        <div class="col-md-12" *ngIf="_test.testing | async">
+            <br>
+            <hr>
+            <div *ngIf="_as.user$ | async">
+                You are logged in.  Welcome {{ _as.userName$ | async}}
+                current user:  {{ _test.testingUser() }} 
+            </div>
+            <div *ngIf="!(_as.user$ | async)">No user.  Not logged in.</div>              
+            <hr>
         </div>
     </div>
+    
 <!--</div>-->

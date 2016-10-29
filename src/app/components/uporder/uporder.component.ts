@@ -19,7 +19,7 @@ export class UporderComponent implements OnInit {
   private bom: Array<any>;
   
 
-  constructor( private _test:TestService, private _order:OrderService) { 
+  constructor( private _test:TestService, private _order:OrderService, private _hub:HubService) { 
     console.log('[ UporderComponent.constructor...');
     //subscribe to OrderService state
     this._order.showBom$.subscribe( res => this.showBom = res );
@@ -33,7 +33,10 @@ export class UporderComponent implements OnInit {
 
   ngOnInit() { 
     console.log('[ UporderComponent.ngOnInit()...');
-
+    if(!this._hub.isLoggedIn) {
+      console.log('...not logged in.  Redirecting...');
+      this._hub.navigate('/login');
+    }
   }
 
  // https://angular.io/docs/ts/latest/tutorial/toh-pt5.html

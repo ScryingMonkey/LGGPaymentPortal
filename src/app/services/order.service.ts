@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs/subscription';
 import { Observable } from 'rxjs/observable';
 import { Subject }    from 'rxjs/Subject';
 import { BehaviorSubject } from "rxjs/Rx";
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
 // import { BarrelOfMonkeysService } from '../components/uporder/barrelofmonkeys/barrelofmonkeys.service';
 
@@ -17,7 +18,7 @@ export class OrderService {
   public bom: Array<any>;
   private title: string;
 
-    constructor() { 
+    constructor(private _af:AngularFire) { 
     console.log('[ OrderService.constructor...');
   }
 
@@ -36,10 +37,10 @@ export class OrderService {
       console.log('...showCheckoutForm :'+this.showCheckoutForm.value);
   }
   updateBom(bom) { 
-    console.log('[ OrderService.updateBom...');
+    // console.log('[ OrderService.updateBom...');
     this.bom = bom; 
-    console.log('...bom :');
-    console.dir(this.bom); 
+    // console.log('...bom :');
+    // console.dir(this.bom); 
   }
   updateMonkeyReport(monkeyReport:Array<string>) {
     this.monkeyReport.next(monkeyReport);
@@ -48,11 +49,31 @@ export class OrderService {
     //TODO: Uncomment this when calculateInvoiceAmount works
     //this.updateInvoiceAmount(this.calculateInvoiceAmount(monkeyReport));
   }
-  updateInvoiceAmount(amount:number) {this.invoiceAmount.next(amount);}
+  updateInvoiceAmount(amount:number) {
+      this.invoiceAmount.next(amount);
+    }
   calculateInvoiceAmount(monkeyReport) { 
       let amount = 0;
       //TODO: Calculate invoiceTotal from pricing sheet from OrderService
       return amount;
+  }
+  sendOrderToFirebase(order, userId, userEmail) {
+      console.log('[ OrderService.sendOrder...');
+      console.log('...ccData: ' +order );
+      console.log('...userId: ' +userId );
+      console.log('...userEmail: ' +userEmail );
+      let afOrder = order;
+      afOrder['userId'] = userId;
+      afOrder['userEmail'] = userEmail;
+      console.log('...afOrder: ' +afOrder );
+      console.dir(afOrder);
+      this._af.database.list('/users/'+userId+'/orders/').push(afOrder);
+  }
+  getOrders(userId) {
+    let orders = this._af.database.list('/users/'+userId+'/orders/');
+    console.log('...OrderService.getOrders.orders: '+orders);
+    console.log(orders);
+    return orders;
   }
 
 }

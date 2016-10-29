@@ -1,24 +1,23 @@
 
 <!--<div class="fluid-container">-->
 <div class = "row upheader-box test-border">
-  <!--<div class="col-md-1 test-border "></div>-->
+
   <div class="col-md-1 test-border uplogo-container"></div>
 
-  <div class= "col-md-10 upheader-content test-border">
-  
+  <div class= "col-md-10 upheader-content test-border">  
+
     <div class="row upheader-title test-border">
-      <div class="col-md-10">{{ title }}</div>
-      <div class="col-md-2 logged-in-status" >
-        <div *ngIf="_as.user$ | async">
-          Logged in as: {{ _as.userName$ | async}}  <div (click)="logout()">Logout</div>
-        </div>
-        <div *ngIf="!(_as.user$ | async)">
-          <a [routerLink]="['/login']">Please log in</a>
-        </div>
+      <div class="col-md-9">{{ title }}</div>
+      <div *ngIf="_hub.loggedIn$ | async" class="col-md-2 logged-in-status" >
+        Logged in as: <br>
+        {{ user.displayName }}
+      </div>
+      <div *ngIf="_hub.loggedIn$ | async" class="col-md-1" >
+        <img src="{{ user.photoURL }}" class="img-user">
       </div>
     </div>
 
-    <div class="row upheader-navbar test-border">
+    <div *ngIf="_hub.loggedIn$ | async" class="row upheader-navbar test-border">
       <div class="col-md-12">
         <ul>
           <li *ngFor="let link of links" 
@@ -29,7 +28,6 @@
         </ul>
       </div>
     </div>
-  
-  </div>
 
+  </div>
 </div>

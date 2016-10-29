@@ -1,13 +1,27 @@
-<p>
-  upaccount works!
-</p>
+<hr>
+<div class="row">
 
-<h3>Orders</h3>
-<div class="grid grid-pad">
-  <div *ngFor="let order of orders" (click)="gotoDetail(order)" class="col-1-4">
-    <div class="module order">
-      <h4>Name: {{ order.name }}</h4>
-      <h5>Quantity: {{ order.quantity }}, Cost: {{ order.cost }}, Status: {{ order.status }}</h5>
-    </div>
+  <div class='col-xs-1'></div>
+
+  <div *ngIf="_hub.user$" class="col-xs-2 col-centered">
+    <img src="{{ user.photoURL }}" class="img-circle img-user"><br>
+    <h3 class="txt-user"> {{ _hub.user.displayName }} </h3>
+    <p class="txt-user"> {{ _hub.user.email}} </p><br>
   </div>
+
+  <div class='col-xs-1'></div>  
+  
+  <div class="col-xs-7">
+    <h1 class="display-2">Orders</h1>
+    <ul class="list-group">
+      <!--<li (click)="gotoDetail(order)" class="module order">-->
+      <li *ngFor="let order of orders | async"
+          (click)="gotoDetail(order)" 
+          class="order list-group-item">
+        <h4>Order Number: {{ order.number }}</h4>
+        <h5>Quantity: {{ order.quantity }}, Cost: {{ order.cost }}, Status: {{ order.status }}</h5>
+      </li>
+    </ul>
+  </div>
+
 </div>

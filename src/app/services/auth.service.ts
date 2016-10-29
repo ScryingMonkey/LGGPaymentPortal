@@ -9,37 +9,58 @@ import { Router }   from '@angular/router';
 
 @Injectable() 
 export class AuthService {
-  // public auth$: Subject<any>;
+  // TODO: refactor all subscriptions to return values from current user
   private user: BehaviorSubject<Object> = new BehaviorSubject({});
   private userName: BehaviorSubject<string> = new BehaviorSubject('???');
   private userListData: BehaviorSubject<any> = new BehaviorSubject({});
   private isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private userKeys: BehaviorSubject<Object> = new BehaviorSubject({});  
   // private userPictureURL: BehaviorSubject<string> = new BehaviorSubject(
   //                           "http://png.clipart.me/graphics/thumbs/103/crash-test-dummy_103003187.jpg");
   private userPictureURL: string = "http://png.clipart.me/graphics/thumbs/103/crash-test-dummy_103003187.jpg";
-
+  public userData: any = {};
   private userHasPicture: boolean = false;
-  private userPictureKey: string = 'none';
+   public userPictureKey: string = 'none';
   private liDetailKeys: Array<string> = new Array('displayName', 'email');
 
-  constructor(public _af: AngularFire, public router: Router) {
+  constructor(public _af: AngularFire, private router: Router) {
     console.log('[ AuthService.constructor');
-    // this.auth$ = _af.auth;
+    // subscribe to auth object
     this._af.auth.subscribe(auth => {
       console.log("[ AuthService.constructor._af.auth.subscription");
       if(auth) {
-        console.log('...auth == true, updating user data, user:');
-        console.log(auth.auth);
-        this.user.next(auth.auth);
-        this.updateUserData(auth.auth);
-        this.router.navigate( ['/loggedin'] );
+        this.printUserData();
+        console.log('...auth == true, updating user data...');
+        // initialize local user object
+        let keys = ['displayName', 'email', 'photoURL', 'providerId', 'uid'];
+        for (let key of keys) { this.userData[key] = 'test';}
+
+        // convert _as.auth object into user object
+        for (let key of keys) { 
+          this.userData[key] = auth.auth.providerData[0][key]; 
+        }
+        this.printUserData();
+
+        this.user.next(this.userData);
+        this.updateUserData(this.userData);
+        
+        if (this.userData.providerId == "google.com") {
+          this.updateUserKeys(['displayName', 'email'], [true, 'photoURL']);
+          console.log('...updated settings for Google login');
+        }
         console.log( "......Logged in!  user: " + auth.auth.displayName );
         console.dir( auth.auth );
+
+        console.log('...redirecting to /loggedin');
+        this.router.navigate( ['/loggedin'] );
+
       } else { 
         console.log( '......not logged in' );
         this.user.next( null );
         this.userName.next( "Please Log In" );
         this.isLoggedIn.next( false );
+        this.printUserData();
+        console.log('...no user.  Redirecting to /logout');
         this.router.navigate( ['/logout'] );
       }
     });  
@@ -50,36 +71,43 @@ export class AuthService {
       provider: AuthProviders.Facebook,
       method: AuthMethods.Popup,
     });
-    this.liDetailKeys = ['displayName', 'email'];
-    this.userHasPicture = true;
-    this.userPictureKey = 'photoURL';
-    console.log('Logged in user with Facebook :');
+    this.updateUserKeys(['displayName', 'email'], [true, 'photoURL']);
+    console.log('...updated settings for Google login');
   }
-
   loginWithGoogle() {
     this._af.auth.login({
       provider: AuthProviders.Google,
       method: AuthMethods.Popup,
     });
-    this.liDetailKeys = ['displayName', 'email'];
-    this.userHasPicture = true;
-    this.userPictureKey = 'photoURL';
-    console.log('...Logged in user with Google :');
+    this.updateUserKeys(['displayName', 'email'],[true,'photoURL']);
+    console.log('...updated settings for Google login');
   }
-
   logout() {
-      console.log("[ AuthService.logout()");
-      this._af.auth.logout();
-      this.user.complete();
-      this.userName.next('Dummy User');
-      this.isLoggedIn.next(false);
-      this.userPictureURL = "http://png.clipart.me/graphics/thumbs/103/crash-test-dummy_103003187.jpg";
-      this.userHasPicture = true;
-      this.userPictureKey = 'none';
-      this.liDetailKeys = null;
-      console.log("...isLoggedIn == " + this.isLoggedIn.value);   
+    console.log("[ AuthService.logout()");
+    this._af.auth.logout();
+    this.user.complete();
+    this.userName.next('Dummy User');
+    this.isLoggedIn.next(false);
+    this.updateUserKeys(null,[true,'none']);
+    this.userPictureURL = 
+              "http://png.clipart.me/graphics/thumbs/103/crash-test-dummy_103003187.jpg";
+    console.log("...isLoggedIn == " + this.isLoggedIn.value);   
+    this.router.navigate( ['/logout'] );
   }
-
+  updateUserKeys(liDetailKeys:Array<string>, userHasPicture:Array<any>){
+  // updates user values.  assumes that user is logged in.
+  // loggedIn([key for user name in this.user, key for email address in this.user], [boolean for whether this.user includes a profile picture, url to picture or empty]);
+  // ex. loggedIn(['displayName', 'email'], [true, 'photoURL']){
+    this.liDetailKeys = liDetailKeys;
+    if(userHasPicture[0]){
+      this.userHasPicture = userHasPicture[0];
+      this.userPictureKey = userHasPicture[1];
+      
+    } else {
+      this.userHasPicture = userHasPicture[0];
+      this.userPictureKey = null;
+    }
+  }
   loginTester() {
     console.log("[ AuthService testing method");
     console.log("......isLoggedIn == " + this.isLoggedIn.value);
@@ -88,39 +116,30 @@ export class AuthService {
     } else { console.log('......no user'); }
   }
   updateUserData(user) {
-    let userPicKeys = ['photoURL'];
+    // let userPicKeys = ['photoURL'];
     console.log('[ AuthService.updateUserData');
     this.userName.next( user.displayName );
     this.isLoggedIn.next( true );
     console.log('...userHasPicture :' +this.userHasPicture+ ', userPictureKey : '+this.userPictureKey);
+    
     if(this.userHasPicture) {
-      console.log('...userPictureURL :' +user[this.userPictureKey]); 
-      // this.userPictureURL.next( user[this.userPictureKey] ); 
       this.userPictureURL = user[this.userPictureKey];
+      console.log('...userPictureURL :' +user[this.userPictureKey]);       
     }
-    for (let key of userPicKeys) {
-      if(user[key]) {
-        console.log('...user has picture, key :'+key);
-        this.userPictureKey = key;
-        this.userPictureURL = user[key];
-        console.log('...userPictureURL : '+this.userPictureURL);
-      } else {
-        console.log('...user does not have picture, key :'+key);
-        console.log(user);        
-      } 
-    }
+
     this.userListData.next( this.parseUserListData( user, this.liDetailKeys ) );
-    console.log('...user data updated:');
-    console.log(user);
+    this.printUserData();
   }
 
-  // Must return an object that fits listdata.interface
-  //     listTitle: string : 'Test Data'
-  //     userPictureURL: string : 'https://somepicture.jpg',
-  //     liTitleKey: string : 'liTitle' 
-  //     liDetailKeys: Array<string> : [ 'detail1', 'detail2', 'detail3']
-  //     liItems: Array<Object> : [{'liTitle': 'liTitle3' , 'detail1':10485, 'detail2':3409, 'detail3':245}]
+
   parseUserListData(user, userDetailKeys: Array<string>) {
+  // parse data from _as.auth object into different local variables
+    // Must return an object that fits listdata.interface
+    // listTitle: string : 'Test Data'
+    // userPictureURL: string : 'https://somepicture.jpg',
+    // liTitleKey: string : 'liTitle' 
+    // liDetailKeys: Array<string> : [ 'detail1', 'detail2', 'detail3']
+    // liItems: Array<Object> : [{'liTitle': 'liTitle3' , 'detail1':10485, 'detail2':3409, 'detail3':245}]
     console.log('[ AuthService.parseUserListData');
     // Define fields
     let listTitle: string = 'User Details';
@@ -157,5 +176,18 @@ export class AuthService {
   get isLoggedIn$() { return this.isLoggedIn.asObservable(); }
   get userListData$() { return this.userListData.asObservable(); }
   // get userPictureURL$() { return this.userPictureURL.asObservable(); }
-  
+  get userKeys$() { return this.userKeys.asObservable(); }
+  get dummyUser() { 
+    let du = {};
+    let keys = ['displayName', 'email', 'photoURL', 'providerId', 'uid'];
+    for (let key of keys) { du[key] = 'test';}
+    return du;
+  }
+
+  //testers
+  printUserData() { 
+    console.log('...user:');
+    console.dir(this.user.value);
+   
+  } 
 }

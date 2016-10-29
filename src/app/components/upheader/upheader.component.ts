@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { ROUTER_DIRECTIVES, Router }   from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
+import { HubService } from '../../services/hub.service';
 
 @Component({
   selector: 'app-upheader',
@@ -15,30 +16,18 @@ export class UpheaderComponent implements OnInit {
   @Input() title: string;
   @Input() links: Array<any>; // array of links.  labels are displayed.  address is handed to the router on click.
   public titleClicked = true;
-  private user$;
-  private auth$;
+  private user;
   private userName: string;
 
-  constructor(private _as: AuthService, private router: Router) { 
+  constructor(private _as: AuthService, private router: Router, private _hub: HubService) { 
     console.log('[ UpheaderComponent.constructor ]');
     // subscribe to the user object for the app
-    this.user$ = this._as.user$;
+    this._hub.user$.subscribe(res => this.user = res );
+    this._hub.headerLinks$.subscribe(res => this.links = res);
   }
 
   ngOnInit() {
     console.log('[ UpheaderComponent.ngOnInit() ]');
-    // set the last link (Input from parent) in links to "Log In"
-    this.links[this.links.length-1] = {'label':'Log In', 'address':'login'};
-    // change last link to 'Log in' or 'Log Out'
-    // updates when logged in status changes
-    this._as.isLoggedIn$.subscribe(isLoggedIn => {
-          if(isLoggedIn) {
-            this.links[this.links.length-1] = {'label':'Log Out', 'address':'logout'};
-          } else {
-            this.links[this.links.length-1] = {'label':'Log In', 'address':'login'};
-            //ToDo: if logged out, remove UserData link
-          }
-       });
   }
 
   onClick(address) { 
@@ -49,9 +38,7 @@ export class UpheaderComponent implements OnInit {
     this.router.navigate(['/'+address]);
   }
   logout() {
-    console.log("...in UpheaderComponent.logout()");
-    this._as.logout();
-    this.router.navigate(['/logout']);
+    this._hub.logout();
   }
 
 }

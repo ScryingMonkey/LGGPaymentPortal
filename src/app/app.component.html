@@ -1,5 +1,6 @@
 <div class="fluid-container">
-  <app-upheader [title]="title" [links]="links">></app-upheader>
+  <!--<app-upheader [hidden]='!loggedIn' [title]="title"></app-upheader>-->
+  <app-upheader [title]="title"></app-upheader>
   <center><router-outlet></router-outlet></center>
   <center><app-uptestingfooter></app-uptestingfooter></center>
 </div>

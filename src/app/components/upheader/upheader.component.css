@@ -40,7 +40,11 @@
   text-decoration: none;
   cursor: pointer;
 }
- 
+.img-user {
+  border-radius: 100%;
+  max-width: 100%;
+  height: auto;
+}
 .uplogo-container {
   height: inherit;
   width: 90px;

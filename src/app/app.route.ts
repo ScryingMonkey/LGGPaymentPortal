@@ -8,6 +8,7 @@ import { UporderComponent } from './components/uporder/uporder.component';
 export const UpAppRoutes: RouterConfig = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', component: UploginComponent },
+    { path: 'loggedin', component: UpaccountComponent },
     { path: 'account', component: UpaccountComponent },
     { path: 'editorder', component: UpeditorderComponent },
     { path: 'order', component: UporderComponent },

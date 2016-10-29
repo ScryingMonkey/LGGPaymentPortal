@@ -1,16 +1,14 @@
 import {Component, OnInit, OnDestroy, APPLICATION_COMMON_PROVIDERS, Input } from '@angular/core';
 import { FORM_DIRECTIVES } from '@angular/common';
 
-import { PayService } from  '../../../services/pay.service'
-import { AuthService } from '../../../services/auth.service';
-import { OrderService } from '../../../services/order.service';
+import { HubService } from '../../../services/hub.service';
 import { TestService } from '../../../services/test.service';
 // import { BarrelOfMonkeysService } from '../barrelofmonkeys/barrelofmonkeys.service';
 
 
 @Component({
   selector: 'upcheckoutform',
-  providers: [APPLICATION_COMMON_PROVIDERS, PayService],
+  providers: [APPLICATION_COMMON_PROVIDERS],
   templateUrl: 'upcheckoutform.component.html',
   styleUrls: ['upcheckoutform.component.css'],
   directives: [],
@@ -30,25 +28,33 @@ export class UpCheckoutForm implements OnInit, OnDestroy  {
                         ccExpiry: '10/33',
                         ccCvc: '333'};
 
-    constructor( private _buy:PayService, private _order:OrderService, private _test:TestService ) { 
+    constructor( private _hub:HubService, private _test:TestService ) { 
         // binds monkeyReport value to monkeyReport value in OrderService
-        this._order.monkeyReport$.subscribe( res => this.summary = this.updateSummary(res));
+        this._hub.monkeyReport$.subscribe( res => this.summary = this.updateSummary(res));
         // binds totalInvoice value to monkeyReport value in OrderService
-        this._order.totalInvoice$.subscribe( res => this.totalInvoice = res);
+        this._hub.totalInvoice$.subscribe( res => this.totalInvoice = res);
     }
     ngOnInit() { 
         console.log('[ UpCheckoutForm.ngOnInit...'); 
     }
     ngOnDestroy() {
         console.log('[ UpCheckoutForm.ngOnDestroy...');
-          }
-
-    submitForm() { this.testForm(); }
-    testForm() {
-        console.log('[ UpCheckoutForm.testForm...');
-        console.log('...ccData: '+this.getCCData() );
     }
-    getCCData(){ return [this.ccData.ccNumber, this.ccData.ccExpiry, this.ccData.ccCvc]; }
+    submitForm() {
+        console.log('...form submitted');
+        this._hub.sendOrderToFirebase(this.order);
+    }
+    get CCData(){ return [this.ccData.ccNumber, this.ccData.ccExpiry, this.ccData.ccCvc]; }
+    get order() {
+        let order = {
+            orderNumber: '00077',
+            quantity: 1,
+            cost: 7,
+            status: 'PAID',
+            ccData: this.CCData
+        }
+        return order;
+    }
     updateSummary(monkeyReport) {
         let summary = '';
         for(let m of monkeyReport){
