@@ -19,6 +19,7 @@ export class HubService {
   public isLoggedIn: boolean = false;
   public user: any;
   public priceList: any;
+  private monkeyReport: any;
 
   constructor(public _af:AngularFire,
               public _as:AuthService, 
@@ -28,6 +29,9 @@ export class HubService {
     console.log('[ HubService.constructor...');
     this._as.isLoggedIn$.subscribe(res => this.isLoggedIn = res );
     this._as.user$.subscribe(res => this.user = res );
+    this._order.monkeyReport$.subscribe(res => this.monkeyReport = res);
+
+
     this.priceList = this._af.database.object('/PriceList/');
     this.user = this._as.dummyUser;
   }
@@ -43,9 +47,12 @@ export class HubService {
   }
   sendOrderToFirebase(order) { 
     console.log('...HubService.sendOrder.uid: '+this.user.uid);
-    this._order.sendOrderToFirebase(order, this.user.uid, this.user.email);
-    }
-  
+    console.log('...monkeyReport: ');
+    console.log(this.monkeyReport)
+    this._order.sendOrderToFirebase(order, this.monkeyReport, this.user.uid, this.user.email);
+    console.log('...order sent.  redirecting to /loggedIn');
+    this.router.navigate(['/account']);
+  }
   // Getters
   get headerLinks$():Observable<Array<any>> { return this.headerLinks.asObservable(); }
   get loggedIn$():Observable<boolean> {return this._as.isLoggedIn$;}
@@ -64,6 +71,9 @@ export class HubService {
     links.push(this.lastLink);
     // update headerLinks to new list
     this.headerLinks.next(links); 
+  }
+  updateMonkeyReport(report) {
+    this._order.updateMonkeyReport(report);
   }
   
 

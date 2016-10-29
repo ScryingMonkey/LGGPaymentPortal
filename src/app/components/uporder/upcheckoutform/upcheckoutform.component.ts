@@ -49,7 +49,7 @@ export class UpCheckoutForm implements OnInit, OnDestroy  {
         let order = {
             orderNumber: '00077',
             quantity: 1,
-            cost: 7,
+            cost: 780,
             status: 'PAID',
             ccData: this.CCData
         }

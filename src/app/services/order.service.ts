@@ -57,17 +57,22 @@ export class OrderService {
       //TODO: Calculate invoiceTotal from pricing sheet from OrderService
       return amount;
   }
-  sendOrderToFirebase(order, userId, userEmail) {
+  sendOrderToFirebase(order, monkeyReport, userId, userEmail) {
       console.log('[ OrderService.sendOrder...');
       console.log('...ccData: ' +order );
       console.log('...userId: ' +userId );
       console.log('...userEmail: ' +userEmail );
       let afOrder = order;
+      // add user info to afOrder
       afOrder['userId'] = userId;
       afOrder['userEmail'] = userEmail;
+      // add everything in monkeyReport to afOrder
+      for (let key in monkeyReport) { afOrder[key] = monkeyReport[key]; }
       console.log('...afOrder: ' +afOrder );
       console.dir(afOrder);
+      // send afOrder to firebase
       this._af.database.list('/users/'+userId+'/orders/').push(afOrder);
+      // _hub navigates view to accouts upon completion
   }
   getOrders(userId) {
     let orders = this._af.database.list('/users/'+userId+'/orders/');

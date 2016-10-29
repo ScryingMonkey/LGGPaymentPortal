@@ -7,6 +7,7 @@ import { Router }   from '@angular/router';
 
 import { Monkey } from './monkey.interface';
 import { OrderService } from '../../../services/order.service';
+import { HubService } from '../../../services/hub.service';
 
 
 @Injectable()
@@ -19,7 +20,7 @@ export class BarrelOfMonkeysService {
 	private monkeyReport : BehaviorSubject<Array<string>> = new BehaviorSubject(Array());
 	
 
-    constructor( private _order:OrderService ) { }
+    constructor( private _order:OrderService, private _hub:HubService ) { }
     monkeyClicked(clickedMonkey:Monkey) {
         console.log('[ BarrelOfMonkeysService.monkeyClicked...');     
         // update currentMonkey with the responses to his options
@@ -122,7 +123,7 @@ export class BarrelOfMonkeysService {
         this._order.updateShowBom$(false);
         // send results of all monkeys out of the barrel to OrderService
         console.dir(this.getMonkeyReport());
-        this._order.updateMonkeyReport(this.getMonkeyReport());
+        this._hub.updateMonkeyReport(this.getMonkeyReport());
     }
     getMonkeyReport() {
         let report = [];
