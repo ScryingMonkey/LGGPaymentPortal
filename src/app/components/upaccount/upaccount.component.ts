@@ -23,18 +23,16 @@ export class UpaccountComponent implements OnInit {
     //pull user data for display
     this._hub.user$.subscribe(res => this.user=res );
 
-
-
     if(!this._hub.isLoggedIn) {
       console.log('...not logged in.  Redirecting...');
       this._hub.navigate('/login');
     }
   }
-  gotoDetail(order){
+  gotoDetail(order:Object){
     console.log('...order:');
     console.log(order);
-    let msg = 'Order '+ order.number+': '+'Quantity: '+order.quantity+
-              ', Cost: '+order.cost+', Status: '+order.status ;
+    let msg = 'Order: ';
+    for (let key of Object.keys(order)) { msg = msg + ", " + key + ": " + order[key]; }
     alert(msg);
   }
 

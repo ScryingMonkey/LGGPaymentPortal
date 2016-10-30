@@ -16,10 +16,10 @@ export class HubService {
   private headerLinks: BehaviorSubject<Array<any>> = 
                           new BehaviorSubject([{'title':'default', 'address':'blah'}]);
   private lastLink: Object = {'label':'Log Out', 'address':'logout'};
+  private monkeyReport: any;
+
   public isLoggedIn: boolean = false;
   public user: any;
-  public priceList: any;
-  private monkeyReport: any;
 
   constructor(public _af:AngularFire,
               public _as:AuthService, 
@@ -31,8 +31,6 @@ export class HubService {
     this._as.user$.subscribe(res => this.user = res );
     this._order.monkeyReport$.subscribe(res => this.monkeyReport = res);
 
-
-    this.priceList = this._af.database.object('/PriceList/');
     this.user = this._as.dummyUser;
   }
 
@@ -45,18 +43,22 @@ export class HubService {
     this._as.logout();
     this.router.navigate(['/logout']);
   }
-  sendOrderToFirebase(order) { 
+  submitOrder(ccData) { 
     console.log('...HubService.sendOrder.uid: '+this.user.uid);
-    console.log('...monkeyReport: ');
-    console.log(this.monkeyReport)
-    this._order.sendOrderToFirebase(order, this.monkeyReport, this.user.uid, this.user.email);
+    this._order.sendOrderToFirebase(ccData, this.user.uid, this.user.email);
     console.log('...order sent.  redirecting to /loggedIn');
     this.router.navigate(['/account']);
+    this.updateShowBom(true);
+    this.updateShowCheckoutForm(false);
   }
+
   // Getters
   get headerLinks$():Observable<Array<any>> { return this.headerLinks.asObservable(); }
   get loggedIn$():Observable<boolean> {return this._as.isLoggedIn$;}
   get user$():Observable<any> { return this._as.user$; }
+
+  get showBom$() { return this._order.showBom$; }
+  get showCheckoutForm$() { return this._order.showCheckoutForm$; }
   get checkoutTitle() { return this._order.checkoutTitle; }
   get monkeyReport$() { return this._order.monkeyReport$; }
   get totalInvoice$() { return this._order.totalInvoice$; }
@@ -64,6 +66,8 @@ export class HubService {
     console.log('...HubService.getOrders.userId: '+this.user.uid);
     return this._order.getOrders(this.user.uid);
   }
+  updateShowBom(bool:boolean) { this._order.updateShowBom$(bool); }
+  updateShowCheckoutForm(bool:boolean) { this._order.updateShowCheckoutForm$(bool); }
 
   // Setters
   updateHeaderLinks$(links:Array<any>) { 

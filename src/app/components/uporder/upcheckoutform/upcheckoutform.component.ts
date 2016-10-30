@@ -42,19 +42,10 @@ export class UpCheckoutForm implements OnInit, OnDestroy  {
     }
     submitForm() {
         console.log('...form submitted');
-        this._hub.sendOrderToFirebase(this.order);
+        this._hub.submitOrder(this.CCData);
     }
     get CCData(){ return [this.ccData.ccNumber, this.ccData.ccExpiry, this.ccData.ccCvc]; }
-    get order() {
-        let order = {
-            orderNumber: '00077',
-            quantity: 1,
-            cost: 780,
-            status: 'PAID',
-            ccData: this.CCData
-        }
-        return order;
-    }
+
     updateSummary(monkeyReport) {
         let summary = '';
         for(let m of monkeyReport){

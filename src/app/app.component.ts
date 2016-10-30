@@ -18,7 +18,7 @@ export class AppComponent {
 
   // TODO: import bom from here into BarrelOfMonkeysService
   bom = [ { key:'size', image:'flamingo', blurb:'Size?', optionType:'dropdown', 
-                 options:['Full Page','1/2 Page', '1/4 Page', '1/8 Page', 'Coupon'], followers:['color'], submit:'Next', hat:'Yellow Boiler' },
+                 options:['Full Page','1/2 Page', '1/4 Page', '1/8 Page'], followers:['color'], submit:'Next', hat:'Yellow Boiler' },
                { key:'color', image:'elephant', blurb:'Black & White or Color?', optionType:'dropdown', 
                  options:['Black & White','Color'], followers:[], submit:'Submit', hat:'Blue Trucker Hat' }
               ];
