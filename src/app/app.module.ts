@@ -13,12 +13,15 @@ import { UploginComponent } from './components/uplogin/uplogin.component';
 import { UpaccountComponent } from './components/upaccount/upaccount.component';
 import { UpeditorderComponent } from './components/upeditorder/upeditorder.component';
 import { UptestingfooterComponent } from './components/uptestingfooter/uptestingfooter.component';
+import { OrderFragmentComponent } from './components/upaccount/ordersfragment.component';
+import { OrderDetailFragment } from './components/upaccount/orderdetailfragment.component';
 
 import { AuthService } from './services/auth.service';
 import { PayService } from './services/pay.service';
 import { TestService } from './services/test.service';
 import { OrderService } from './services/order.service';
 import { HubService } from './services/hub.service';
+import { BtCheckoutFormComponent } from './components/btcheckoutform/btcheckoutform.component';
 
 // Must export the config
 export const firebaseConfig = {
@@ -40,12 +43,11 @@ export const firebaseConfig = {
     UploginComponent,
     UporderComponent,
     UptestingfooterComponent,
-    UpheaderComponent,
-    UporderComponent,
-    UploginComponent,
     UpaccountComponent,
     UpeditorderComponent,
-    UptestingfooterComponent
+    OrderFragmentComponent,
+    OrderDetailFragment,
+    BtCheckoutFormComponent
   ],
   imports: [ BrowserModule, FormsModule, HttpModule,
     AngularFireModule.initializeApp(firebaseConfig),

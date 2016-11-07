@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 
+declare var braintree:any;
+
 @Injectable()
 export class PayService {
 
-  constructor() { }
+  constructor() {
+  }
    
   sendPayment(method:string) {
         console.log('[ BuyService.sendPayment()...');

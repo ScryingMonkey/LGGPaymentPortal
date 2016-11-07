@@ -5,10 +5,16 @@ import { HubService } from '../../services/hub.service';
 import { OrderService } from '../../services/order.service';
 import { AuthService } from '../../services/auth.service';
 
+import { OrderFragmentComponent } from './ordersfragment.component';
+import { UpCheckoutForm } from '../upcheckoutform/upcheckoutform.component';
+import { OrderDetailFragment } from './orderdetailfragment.component';
+
+
 @Component({
   selector: 'app-upaccount',
   templateUrl: './upaccount.component.html',
-  styleUrls: ['./upaccount.component.css']
+  styleUrls: ['./upaccount.component.css'],
+  providers: [OrderFragmentComponent, UpCheckoutForm, OrderDetailFragment]
 })
 export class UpaccountComponent implements OnInit {
   private orders; //:Array<any> = new Array();

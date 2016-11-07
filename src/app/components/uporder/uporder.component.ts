@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { BarrelOfMonkeysComponent } from './barrelofmonkeys/barrelofmonkeys.component';
-import { UpCheckoutForm } from './upcheckoutform/upcheckoutform.component';
+import { UpCheckoutForm } from '../upcheckoutform/upcheckoutform.component';
 import { TestService } from '../../services/test.service';
 import { HubService } from '../../services/hub.service';
 import { OrderService } from '../../services/order.service';

@@ -10,6 +10,7 @@
 }
 .order {
     color: black;
+    margin: 5px;
 }
 .order:hover {
   cursor: pointer;

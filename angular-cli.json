@@ -20,7 +20,10 @@
         "../node_modules/bootstrap-social/bootstrap-social.css",
         "../node_modules/font-awesome/css/font-awesome.min.css"
       ],
-      "scripts": [],
+      "scripts": [
+          "../node_modules/braintree-web/client.js",
+          "../node_modules/braintree-web/hosted-fields.js"
+      ],
       "environments": {
         "source": "environments/environment.ts",
         "prod": "environments/environment.prod.ts",

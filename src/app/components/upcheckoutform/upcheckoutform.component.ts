@@ -1,8 +1,8 @@
 import {Component, OnInit, OnDestroy, APPLICATION_COMMON_PROVIDERS, Input } from '@angular/core';
 import { FORM_DIRECTIVES } from '@angular/common';
 
-import { HubService } from '../../../services/hub.service';
-import { TestService } from '../../../services/test.service';
+import { HubService } from '../../services/hub.service';
+import { TestService } from '../../services/test.service';
 // import { BarrelOfMonkeysService } from '../barrelofmonkeys/barrelofmonkeys.service';
 
 

@@ -10,18 +10,14 @@
   </div>
 
   <div class='col-xs-1'></div>  
-  
+  <div class="col-xs-8">
+    <up-btcheckoutform></up-btcheckoutform>
+  </div>
+  <div class="col-xs-8">
+    <upcheckoutform></upcheckoutform>
+  </div>
   <div class="col-xs-7">
-    <h1 class="display-2">Orders</h1>
-    <ul class="list-group">
-      <!--<li (click)="gotoDetail(order)" class="module order">-->
-      <li *ngFor="let order of orders | async"
-          (click)="gotoDetail(order)" 
-          class="order list-group-item">
-        <h4>Order Number: {{ order.number }}</h4>
-        <h5>Quantity: {{ order.quantity }}, Cost: {{ order.cost }}, Status: {{ order.status }}</h5>
-      </li>
-    </ul>
+    <orders-fragment [orders]="orders"></orders-fragment>
   </div>
 
 </div>
